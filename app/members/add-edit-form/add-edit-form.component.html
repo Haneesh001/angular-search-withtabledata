@@ -1,0 +1,73 @@
+
+
+
+
+
+<mat-card-content>
+  <form [formGroup]="addEditMemberForm"
+        (ngSubmit)="onSubmit(addEditMemberForm.value)"
+        [class.error]="!addEditMemberForm.valid && addEditMemberForm.touched">
+
+    <ul class="items">
+
+      <li>
+        <label class="label-pad">First name: </label>
+        <mat-form-field class="inputBackground">
+          <input matInput #firstName maxlength="30" class="inputField" type="text" id="first_name"
+                 formControlName="first_name" [errorStateMatcher]="matcher" required>
+          <mat-hint align="end">{{firstName.value?.length || 0}}/30</mat-hint>
+          <mat-error>{{ errors.required }}</mat-error>
+        </mat-form-field>
+      </li>
+
+
+      <li><label class="label-pad">Last name: </label>
+        <mat-form-field class="inputBackground">
+          <input matInput #lastName maxlength="30" class="inputField" type="text" id="last_name"
+                 formControlName="last_name" [errorStateMatcher]="matcher" required>
+          <mat-hint align="end">{{lastName.value?.length || 0}}/30</mat-hint>
+          <mat-error>{{ errors.required }}</mat-error>
+        </mat-form-field>
+      </li>
+
+      <li><label class="label-pad">User name: </label>
+        <mat-form-field class="inputBackground">
+          <input matInput #userName maxlength="30" 
+                 class="inputField" type="text" id="user_name"
+                 formControlName="user_name" 
+                 [errorStateMatcher]="matcher" required 
+                 (blur)="validateUsername(userName.value)">
+
+          <mat-hint align="end">{{userName.value?.length || 0}}/30</mat-hint>
+
+          <div class="formError" *ngIf = "this.inDatabase === true">
+            This username already exists in our database</div>
+
+          <mat-error>{{ errors.required }}</mat-error>
+
+        </mat-form-field>
+      </li>
+      <br>
+
+      <li><label class="label-pad">Country of current legal residence: </label>
+        <mat-form-field>
+          <mat-select placeholder="Select one" type="text" id="country"
+                      formControlName="country" required>
+            <mat-option *ngFor="let country of countries"
+                    [value]="country">{{country}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </li>
+
+
+    </ul>
+
+    <div *ngIf="!addEditMemberForm.valid"
+         class="ui error message">All fields require information.</div>
+
+  </form>
+
+</mat-card-content>
+
+
